@@ -54,6 +54,30 @@ public class Conexao {
         //retorna a varivael boolean
         return result;
     }
+    
+    public boolean conectaRest() {
+        //cria variavel boolean verdadeira
+        boolean result = true;
+        //tenta estabelecer uma conexao com o banco de dados 
+        try {
+            Class.forName(driver);
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            
+        } catch (ClassNotFoundException Driver) {
+            JOptionPane.showMessageDialog(null,
+                    "Driver não localizado" + Driver, "Mensagem de Programa",
+                    JOptionPane.INFORMATION_MESSAGE);
+            result = false;
+        } catch (SQLException Fonte) {
+            JOptionPane.showMessageDialog(null,
+                    "Fontes de dados não localizada"
+                    + Fonte, "Mensagem de Programa",
+                    JOptionPane.INFORMATION_MESSAGE);
+            result = false;
+        }
+        //retorna a varivael boolean
+        return result;
+    }
 
     public void desconecta() {
         //metodo feito para desconectar com o banco de dados

@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package controle;
+import conexao.Conexao;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,11 +13,13 @@ package controle;
  */
 public class telaLoginCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form telaLoginCliente
-     */
+    Conexao con_cliente;
+    
     public telaLoginCliente() {
         initComponents();
+        con_cliente = new Conexao();
+        
+        con_cliente.conectaRest();
     }
 
     /**
@@ -30,8 +35,9 @@ public class telaLoginCliente extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txt_usuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txt_senha = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
+        btnCad = new javax.swing.JButton();
+        txt_senha = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,26 +64,40 @@ public class telaLoginCliente extends javax.swing.JFrame {
             }
         });
 
+        btnCad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCad.setText("Não tem conta?");
+        btnCad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadActionPerformed(evt);
+            }
+        });
+
+        txt_senha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_senhaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3)
-                        .addComponent(txt_usuario)
-                        .addComponent(jLabel4)
-                        .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(120, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(132, 132, 132))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(btnCad))
+                    .addComponent(jLabel3)
+                    .addComponent(txt_usuario)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_senha))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,9 +112,11 @@ public class telaLoginCliente extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(loginButton)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginButton)
+                    .addComponent(btnCad))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,11 +128,15 @@ public class telaLoginCliente extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
 
+        String usuario = txt_usuario.getText();
+        String senha = txt_senha.getText();
         try{
-            String pesquisa = "select * from tblusuario where usuario like'"+txt_usuario.getText()+"'&&senha="+txt_senha.getText()+"";
+            //String pesquisa = "select * from tblcliente where usuario like'"+txt_usuario.getText()+"'&&senha="+txt_senha.getText()+""
+            //"select * from `tblcliente` where `usuario` like'"+txt_usuario.getText()+"'and `senha` like "+txt_senha.getText()+""
+            String pesquisa = "select * from `tblcliente` where `usuario` ='"+usuario+"'and `senha` = '"+senha+"' order by id";
             con_cliente.executaSQL(pesquisa);
             if(con_cliente.resultset.first()){
-                telaCadastro mostra = new telaCadastro();
+                telaLoja mostra = new telaLoja();
                 mostra.setVisible(true);
                 dispose();
             }else{
@@ -122,6 +148,16 @@ public class telaLoginCliente extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void btnCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadActionPerformed
+       telaCadastroCliente mostra = new telaCadastroCliente();
+       mostra.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_btnCadActionPerformed
+
+    private void txt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_senhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_senhaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,11 +195,12 @@ public class telaLoginCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCad;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JButton loginButton;
-    private javax.swing.JPasswordField txt_senha;
+    private javax.swing.JTextField txt_senha;
     private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }

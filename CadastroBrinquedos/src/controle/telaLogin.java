@@ -34,7 +34,7 @@ public class telaLogin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txt_senha = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnCli = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,7 +61,13 @@ public class telaLogin extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Logar como cliente");
+        btnCli.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCli.setText("Logar como cliente");
+        btnCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCliActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,7 +90,7 @@ public class telaLogin extends javax.swing.JFrame {
                 .addContainerGap(120, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCli)
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
@@ -103,7 +109,7 @@ public class telaLogin extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(loginButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCli)
                 .addGap(20, 20, 20))
         );
 
@@ -132,6 +138,12 @@ public class telaLogin extends javax.swing.JFrame {
     private void txt_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usuarioActionPerformed
+
+    private void btnCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliActionPerformed
+        telaLoginCliente mostra = new telaLoginCliente();
+               mostra.setVisible(true);
+               dispose();
+    }//GEN-LAST:event_btnCliActionPerformed
 
     
     public static void main(String args[]) {
@@ -167,7 +179,7 @@ public class telaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCli;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

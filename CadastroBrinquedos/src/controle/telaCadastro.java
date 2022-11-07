@@ -24,26 +24,26 @@ public class telaCadastro extends javax.swing.JFrame {
         //e preeche a tabela com os dados do banco de dados
         initComponents();
         con_cliente = new Conexao();
-        con_cliente.conecta();
+        con_cliente.conectaRest();
         con_cliente.executaSQL("select * from tblbrinquedos order by id");
         preencherTabela();
         posicionarRegistro();
-        tblClientes.setAutoCreateRowSorter(true);// ativa a classificação 
+        tblBrinquedos.setAutoCreateRowSorter(true);// ativa a classificação 
         //ordenada da tabela
 
     }
 
     public void preencherTabela() {
         //declara o tamanho maximo que cada coluna irá suportar
-        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(8);
-        tblClientes.getColumnModel().getColumn(1).setPreferredWidth(30);
-        tblClientes.getColumnModel().getColumn(2).setPreferredWidth(11);
-        tblClientes.getColumnModel().getColumn(3).setPreferredWidth(14);
-        tblClientes.getColumnModel().getColumn(4).setPreferredWidth(14);
-        tblClientes.getColumnModel().getColumn(5).setPreferredWidth(30);
-        tblClientes.getColumnModel().getColumn(6).setPreferredWidth(30);
+        tblBrinquedos.getColumnModel().getColumn(0).setPreferredWidth(8);
+        tblBrinquedos.getColumnModel().getColumn(1).setPreferredWidth(30);
+        tblBrinquedos.getColumnModel().getColumn(2).setPreferredWidth(11);
+        tblBrinquedos.getColumnModel().getColumn(3).setPreferredWidth(14);
+        tblBrinquedos.getColumnModel().getColumn(4).setPreferredWidth(14);
+        tblBrinquedos.getColumnModel().getColumn(5).setPreferredWidth(30);
+        tblBrinquedos.getColumnModel().getColumn(6).setPreferredWidth(30);
 
-        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblBrinquedos.getModel();
         modelo.setNumRows(0);
 
         try {
@@ -129,7 +129,7 @@ public class telaCadastro extends javax.swing.JFrame {
         txtCat = new javax.swing.JTextField();
         txtPreco = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
+        tblBrinquedos = new javax.swing.JTable();
         btnPrimeiroRegistro = new javax.swing.JButton();
         btnVoltarUmRegistro = new javax.swing.JButton();
         btnAvancarUmRegistro = new javax.swing.JButton();
@@ -174,7 +174,7 @@ public class telaCadastro extends javax.swing.JFrame {
             }
         });
 
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tblBrinquedos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -185,7 +185,7 @@ public class telaCadastro extends javax.swing.JFrame {
                 "Código", "Nome", "Categoria", "Preço", "Quantidade", "Descrição", "Data de Adição"
             }
         ));
-        jScrollPane1.setViewportView(tblClientes);
+        jScrollPane1.setViewportView(tblBrinquedos);
 
         btnPrimeiroRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/resultset_first.png"))); // NOI18N
         btnPrimeiroRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +244,7 @@ public class telaCadastro extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Pesquisa por nome do Cliente:");
+        jLabel1.setText("Pesquisa por nome do Brinquedo:");
 
         txt_pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -343,7 +343,7 @@ public class telaCadastro extends javax.swing.JFrame {
                                         .addComponent(btnAvancarUmRegistro)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnUltimoRegistro)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnNovo)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnCadastrar)
@@ -435,7 +435,7 @@ public class telaCadastro extends javax.swing.JFrame {
         //botão responsavel por mostrar o próximo registro da tabela
         try {
             int linha = con_cliente.resultset.getRow();
-            int gntlinha = tblClientes.getRowCount();
+            int gntlinha = tblBrinquedos.getRowCount();
             if (linha == gntlinha) {
                 con_cliente.resultset.last();
             } else {
@@ -704,7 +704,7 @@ public class telaCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel lblFone;
     private javax.swing.JLabel lblNasc;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JTable tblClientes;
+    private javax.swing.JTable tblBrinquedos;
     private javax.swing.JFormattedTextField txtAdd;
     private javax.swing.JTextField txtCat;
     private javax.swing.JTextField txtDescr;

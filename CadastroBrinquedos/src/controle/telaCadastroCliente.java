@@ -4,17 +4,23 @@
  */
 package controle;
 
-/**
- *
- * @author dti
- */
+import conexao.Conexao;// Importa o packege e a classe
+import javax.swing.JOptionPane;// importa o pacote do JOptionPane
+import javax.swing.table.DefaultTableModel;// para reconhecimento da Jtable
+import java.sql.*;// para reconhecimento dos comandos SQL
+
 public class telaCadastroCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form telaCadastroCliente
-     */
+    Conexao con_cliente;
+    
     public telaCadastroCliente() {
+        //instancia a classe conexao, estabelece a conexao com o banco de dados 
+        //e preeche a tabela com os dados do banco de dados
         initComponents();
+        con_cliente = new Conexao();
+        con_cliente.conectaRest();
+        con_cliente.executaSQL("select * from tblbrinquedos order by id");
+        
     }
 
     /**
@@ -41,7 +47,8 @@ public class telaCadastroCliente extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtSenha = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCriar = new javax.swing.JButton();
+        btnLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,10 +118,17 @@ public class telaCadastroCliente extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel8.setText("Senha:");
 
-        jButton1.setText("Criar Conta");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCriar.setText("Criar Conta");
+        btnCriar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCriarActionPerformed(evt);
+            }
+        });
+
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
             }
         });
 
@@ -143,10 +157,12 @@ public class telaCadastroCliente extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(351, 351, 351)
-                        .addComponent(jButton1)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(btnCriar)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnLimpar))
+                                .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(289, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -183,7 +199,9 @@ public class telaCadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCriar)
+                    .addComponent(btnLimpar))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
 
@@ -218,9 +236,53 @@ public class telaCadastroCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarActionPerformed
+       telaLoginCliente mostra = new telaLoginCliente();
+        //atribui os valores apresentados nos campos de texto à variaveis
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        String nasc = txtNasc.getText();
+        String end = txtEnd.getText();
+        String tel = txtTel.getText();
+        String user = txtUsuario.getText();
+        String senha = txtSenha.getText();
+        
+        
+
+        //atribui valores aos campos baseando-se nas variaveis
+        try {
+            String insert_sql = "insert into tblcliente (nome,cpf, datanasc, endereco, telefone, usuario, senha"
+                    + ") values ('" + nome + "','" + cpf + "','"
+                    + nasc + "','" +end+
+                    "','"+tel+"','"+user+"','"+senha+"')";
+            con_cliente.statemant.executeUpdate(insert_sql);
+            JOptionPane.showMessageDialog(null,
+                    "Gravação realizada com sucesso!!", "Mensagem do Programa",
+                    JOptionPane.INFORMATION_MESSAGE);
+            con_cliente.executaSQL("select * from tblcliente order by id");
+            con_cliente.resultset.first();
+            
+            mostra.setVisible(true);
+            dispose();
+
+        } catch (SQLException errosql) {
+            JOptionPane.showMessageDialog(null, "\n Erro na gravação: \n"
+                    + errosql, "Mensagem do Programa",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCriarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        txtNome.setText("");
+        txtCpf.setText("");
+        txtNasc.setText("");
+        txtEnd.setText("");
+        txtTel.setText("");
+        txtUsuario.setText("");
+        txtSenha.setText("");
+        
+        txtNome.requestFocus();
+    }//GEN-LAST:event_btnLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,7 +320,8 @@ public class telaCadastroCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCriar;
+    private javax.swing.JButton btnLimpar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
